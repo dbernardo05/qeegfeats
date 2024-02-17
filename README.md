@@ -25,3 +25,10 @@ git clone https://github.com/dbernardo05/qeegfeats.git
 ```bash
 cd qeegfeats
 chmod +x batch_features.sh
+```
+
+## Acknowledgements
+We deeply appreciate the numerous participants of the Kaggle Seizure Prediction Contest (Brinkmann et al.), who have graciously shared their QEEG algorithms. Many of the algorithms in this code were directly forked from various Kagglers cited in Brinkmann et al.
+
+## References
+Brinkmann BH, Wagenaar J, Abbot D, Adkins P, Bosshard SC, Chen M, Tieng QM, He J, Muñoz-Almaraz FJ, Botella-Rocamora P, Pardo J. Crowdsourcing reproducible seizure forecasting in human and canine epilepsy. Brain. 2016 Jun 1;139(6):1713-22.
