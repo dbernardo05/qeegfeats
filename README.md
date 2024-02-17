@@ -1,6 +1,7 @@
 # qeegfeats
 
 Pipeline to generate QEEG features for various EEG classification/prediction/forecasting tasks.
+The algorithms to generate QEEG features are located in scripts/preproc.py
 
 ## Requirements
 
