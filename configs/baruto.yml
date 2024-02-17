@@ -1,0 +1,114 @@
+
+n_jobs: 8
+srate: 256
+meta_name: conv_lstm
+
+# EPOCH SEGMENTATION STUFF
+bp_freq_lo: 0.1
+bp_freq_hi: 20
+resample_freq: 40
+labeling_method: "binary" 
+which_dataset: "swedish"
+ii_buff: 1800
+pi_buff: 300
+save_flag: True
+augment_flag: True
+sz_thresh: 2 # sz_thresh is min # of pos anns required to be counted as sz
+len_epoch: 60
+verbose: False
+
+# FEATURE STUFF
+denoise_mode: False
+bp_mode: True
+nf_mode: True
+debug_mode: False
+
+
+feature_output: 
+  - multiclass/augmented/sph01_sop30/bp/win60_ep20/coherences
+  - multiclass/augmented/sph01_sop30/bp/win60_ep20/arerror
+  - multiclass/augmented/sph01_sop30/bp/win60_ep20/autocorrmat
+  - multiclass/augmented/sph01_sop30/bp/win60_ep20/asymm_abs
+  - multiclass/augmented/sph01_sop30/bp/win60_ep20/rqachannel_t2e3
+  - multiclass/augmented/sph01_sop30/bp/win60_ep20/rellogpower
+  - multiclass/augmented/sph01_sop30/bp/win60_ep20/fooof
+
+features:
+  - preproc:
+    - Windower:
+        window: 20
+        srate: 40
+    - Coherences:
+        window: 80
+        overlap: 0.5
+        fs: 40
+        frequencies: [[0.1, 4], [4, 8], [8, 12]]
+        aggregate: False
+        transpose: False
+        return_global_median: True
+
+  - preproc:
+    - Windower:
+        window: 20
+        srate: 40
+    - ARError:
+        subsample: 4
+        order: 5
+  - preproc:
+    - Windower:
+        window: 20
+        srate: 40
+    - AutoCorrMat:
+        order: [40]
+        subsample: 4
+        eigenmode: True
+  - preproc:
+    - Windower:
+        window: 20 # secs
+        srate: 40  # Hz
+    - AsymmetryFeatures:
+        abs_flag: True
+  - preproc:
+    - Windower:
+        window: 20 # secs
+        srate: 40  # Hz
+    - rqa_channel:
+        hp: 0.5
+        lp: 4
+        tau: 2
+        emb_dim: 3
+        sfreq: 40
+  - preproc:
+    - Windower:
+        window: 10
+        srate: 40
+    - RelativeLogPower:
+        window: 80
+        overlap: 0.0
+        fs: 40
+        frequencies: [[0.1, 4], [4, 8], [8, 12], [12, 40]]
+
+        
+
+
+imports:
+  mne.decoding:
+    - Vectorizer
+  xgboost:
+    - XGBClassifier
+  sklearn.ensemble:
+    - BaggingClassifier
+  sklearn: 
+    - linear_model
+  utils.preproc:
+    - RelativeLogPower
+    - Windower
+    - rqa
+    - rqa_channel
+    - MDFA
+    - BasicStats
+    - AperiodicFeatures
+    - AsymmetryFeatures
+    - AutoCorrMat
+    - Coherences
+    - ARError
