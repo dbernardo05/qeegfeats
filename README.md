@@ -12,12 +12,12 @@ Pipeline to generate QEEG features for various EEG classification/prediction/for
 
 ```bash
 pip install -r requirements.txt
-
+```
 ## Installation
 
 ```bash
 git clone https://github.com/dbernardo05/qeegfeats.git
-
+```
 ## Operation
 - edit batch_features.sh to include your EEG file directory and desired output directory
 - then run the following command:
